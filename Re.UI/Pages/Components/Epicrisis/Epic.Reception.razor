@@ -2,6 +2,7 @@
 @using Re.UI.Data
 @using Re.Services.Services.Epicrisis;
 @inject ReceptEpicrisisService reService
+@inject ISnackbar Snackbar
 
 <MudGrid>
     <MudItem xs="9">
@@ -1038,5 +1039,7 @@
         re.Date = DateOnly.FromDateTime(date.Value);
         re.Time = TimeOnly.FromTimeSpan(time.Value);
         await reService.SaveReceptEpicrisisAsync(re);
+        Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
+        Snackbar.Add("Запись сохранена", Severity.Success);
     }
 }

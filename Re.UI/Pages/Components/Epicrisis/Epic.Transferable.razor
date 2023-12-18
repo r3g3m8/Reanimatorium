@@ -2,6 +2,7 @@
 @using Re.Core.Models;
 @using Re.Services.Services.Epicrisis;
 @inject TransferEpicrisisService trService
+@inject ISnackbar Snackbar
 
 <MudGrid>
     <MudItem xs="9">
@@ -355,5 +356,7 @@
     async Task Submit()
     {
         await trService.SaveTransferableAsync(tr);
+        Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
+        Snackbar.Add("Запись сохранена", Severity.Success);
     }
 }

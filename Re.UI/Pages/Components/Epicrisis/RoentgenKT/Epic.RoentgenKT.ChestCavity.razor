@@ -2,6 +2,7 @@
 @using Re.Core.Models;
 @using Re.Services.Services.Epicrisis;
 @inject ChestCavityService chestService
+@inject ISnackbar Snackbar
 
 <MudText style="margin-top: 15px; font-weight: bolder;">
     @ccRoentgen.Date.ToString("dd.MM.yyyy") &nbsp; &nbsp;&nbsp;&nbsp; @string.Format("{0}:{1}", ccRoentgen.Time.Hour.ToString("D2"), ccRoentgen.Time.Minute.ToString("D2"))
@@ -95,5 +96,7 @@
     async Task Submit()
     {
         await chestService.SaveChestCavityAsync(ccRoentgen);
+        Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
+        Snackbar.Add("Запись сохранена", Severity.Success);
     }
 }
