@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Re.Data;
@@ -11,9 +12,10 @@ using Re.Data;
 namespace Re.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20231218124512_NewProt1")]
+    partial class NewProt1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1127,21 +1129,6 @@ namespace Re.Data.Migrations
 
                     b.Property<int>("InotropesValue")
                         .HasColumnType("integer");
-
-                    b.Property<bool>("IsAddition")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsDrainage")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsIVL")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsInotropes")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsVash")
-                        .HasColumnType("boolean");
 
                     b.Property<string>("LaboratoryData")
                         .HasColumnType("text");
