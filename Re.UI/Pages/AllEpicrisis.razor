@@ -9,19 +9,124 @@
 <MudTabs Elevation="4" Rounded="true" Centered="true" Color="@Color.Primary" PanelClass="pa-6">
     <MudTabPanel Text="Приемный эпикриз">
         <MudGrid>
-        @foreach (var res in result)
-        {
-            <MudItem xs="6">
-                <MudCard Style="background-color: #c0c3e8; border-radius: 15px;" Elevation="3" Outlined="true">
-                    <MudCardContent>
-                        @foreach (var value in res)
+            @foreach (var item in allReception)
+            {
+                <MudItem xs="6">
+                    <MudCard>
+                        <MudCardHeader>
+                            <CardHeaderAvatar>
+                                <MudAvatar Color="Color.Primary">П</MudAvatar>
+                            </CardHeaderAvatar>
+                            <CardHeaderContent>
+                                <MudText Typo="Typo.body1">Приемный эпикриз</MudText>
+                                <MudText Typo="Typo.body1">@item.Date @item.Time</MudText>
+                            </CardHeaderContent>
+                            <CardHeaderActions>
+                                <MudIconButton Icon="@Icons.Material.Filled.Print" Title="Печать" Color="Color.Default" />
+                            </CardHeaderActions>
+                        </MudCardHeader>
+                        <MudCardContent>
+                            <MudText><strong>Доставлен из: </strong>@item.DeliveredFrom</MudText>
+                            <MudText><strong>ИВЛ при транспортировке: </strong>@item.AVLDueTransportation</MudText>
+                            <MudText><strong>Жалобы: </strong>@item.Complaints</MudText>
+                            <MudText><strong>Жалобы(описание): </strong>@item.ComplaintText</MudText>
+                            @if(item.IsVash == true)
+                            {
+                                <MudText><strong>ВАШ: </strong>@item.VAS</MudText>
+                            }
+                            <MudText><strong>Состояние: </strong>@item.Condition</MudText>
+                            <MudText><strong>Сознание: </strong>@item.Conscience</MudText>
+                            <MudText><strong>Ramsey: </strong>@item.Ramsey</MudText>
+                            <MudText><strong>Тонус мышц: </strong>@item.MuscleTone</MudText>
+                            <MudText><strong>Кожные покровы: </strong>@string.Join(" ", item.SkinCovers)</MudText>
+                            <MudText><strong>Цианоз: </strong>@item.Cyanosis</MudText>
+                            <MudText><strong>Мраморность: </strong>@item.Marbling</MudText>
+                            <MudText><strong>Периферические отеки: </strong>@item.PeripheralEdema</MudText>
+                            <MudText><strong>В/в катетер: </strong>@string.Join("", item.VeinsToBeCatheterized)</MudText>
+                            <MudText><strong>Признаки воспалениея в области катетера: </strong>@item.InflammationInCatheter</MudText>
+                            <MudText><strong>Спонтанное дыхание: </strong>@item.SpontaneousBreathing</MudText>
+                            <MudText><strong>Дыхание через: </strong>@item.BreathingThrough</MudText>
+                            <MudText><strong>Нарушение дыхания: </strong>@item.BreathingDisorder</MudText>
+                            <MudText><strong>Аускультативно: </strong>@item.Auscultatory</MudText>
+                            <MudText><strong>Ослабление дыхания: </strong>@string.Join("", item.BreathingRate)</MudText>
+                            <MudText><strong>Хрипы: </strong>@string.Join("", item.Wheezes)</MudText>
+                        </MudCardContent>
+                        @if (item.IsIVL == false)
                         {
-                            <MudText><b>@value.Key:</b> @value.Value</MudText>
+                            <MudCardContent >
+                                <MudText><strong>ЧДД: </strong>@item.RespiratoryRate в минуту</MudText>
+                                <MudText><strong>Инсуфляция кислорода через: </strong>@item.OxygenInsufflation
+                                    V = @item.Volume л/мин
+                                </MudText>
+                            </MudCardContent>
                         }
-                    </MudCardContent>
-                </MudCard>
-            </MudItem>
-        }
+                        @if(item.IsIVL == true)
+                        {
+                            <MudCardContent>
+                            <MudText><strong>Респираторная поддержка: </strong>@item.RespiratorySupport</MudText>
+                            <MudStack Row="true">
+                                <MudText><strong>Аппаратом: </strong>@item.Device</MudText>
+                                <MudText><strong>Режим: </strong>@item.Mode</MudText>
+                                <MudText><strong>ДО: </strong>@item.Till мл.</MudText>
+                            </MudStack>
+                            <MudStack Row="true">
+                                <MudText><strong>ЧД апп.: </strong>@item.BR</MudText>
+                                <MudText><strong>Pinsp: </strong>@item.Pinsp см. водн. ст.</MudText>
+                            </MudStack>
+                            <MudStack Row="true">
+                                <MudText><strong>Psupp.: </strong>@item.Psupp см. водн. ст.</MudText>
+                                <MudText><strong>PEEP: </strong>@item.PEEP</MudText>
+                                <MudText><strong>FiO2: </strong>@item.FiO2 %</MudText>
+                            </MudStack>
+                            </MudCardContent>
+                        }
+                        <MudCardContent>
+                        <MudText><strong>Гемодинамика: </strong>@item.Hemodynamics</MudText>
+                        @if (item.IsInotropes)
+                        {
+                            <MudText><strong>Инотропы: </strong>@item.Inotropes @item.InotropesValue @item.InotropesUnits</MudText>
+                            <MudText><strong>Инотропы(описание): </strong>@item.InotropesDescription</MudText>
+
+                        }
+                        <MudStack Row="true">
+                            <MudText><strong>АД: </strong>@string.Join("/", item.ArtherialPressure) мм рт. ст.</MudText>
+                            <MudText><strong>Пульс: </strong>@item.Pulse уд./мин</MudText>
+                            <MudText><strong>Ритмичность: </strong>@item.PulseRhythm</MudText>
+                        </MudStack>
+                        <MudText><strong>ЧСС: </strong>@item.HeartRate в 1 мин. <strong>SpO2: </strong>@item.SpO2</MudText>
+                            <MudText><strong>Живот: </strong>@item.Abdomen @item.AbdomenText</MudText>
+                        <MudText><strong>Болезненности: </strong>@item.Pain @item.PainText</MudText>
+                        <MudText><strong>Живот вздут: </strong>@item.Distension @item.DistensionText</MudText>
+                        <MudText><strong>Перистальтика: </strong>@item.Peristalsis</MudText>
+                        <MudText><strong>Язык: </strong>@string.Join("", item.Tongue)</MudText>
+                        <MudText><strong>Диурез: </strong>@item.Diuresis мл.</MudText>
+                        <MudText><strong>Моча: </strong>@item.Urine</MudText>
+
+                        @if (item.IsDrainage)
+                        {
+                            <MudText><strong>По дренажам: </strong>@item.Drainage</MudText>
+                        }
+                        <MudText><strong>Лабораторные данные: </strong>@item.LaboratoryData</MudText>
+                        @if (item.IsAddition)
+                        {
+                            <MudText><strong>Дополнительно: </strong>@item.Addition</MudText>
+                        }
+                            
+                        <MudText><strong>Тяжесть состояние обусловлена: </strong></MudText>
+                        <MudText>@item.SeverityOfCondition</MudText>
+                        <MudText><strong>Планируется: </strong></MudText>
+                        <MudText>@item.TreatmentPlan</MudText>
+                        </MudCardContent>
+
+                        <MudCardActions style="justify-content: flex-end;">
+                            <MudText Typo="Typo.subtitle1" Align="Align.End">
+                                <strong>@item.Doctor.Name, @item.Doctor.Position</strong>
+                            </MudText>
+
+                        </MudCardActions>
+                    </MudCard>
+                </MudItem>
+            }
         </MudGrid>
     </MudTabPanel>
     <MudTabPanel Text="Переводной эпикриз">
@@ -35,64 +140,10 @@
 
 @code {
     private List<ReceptionEpicrisis> allReception = new List<ReceptionEpicrisis>();
-    List<Dictionary<string, string>> result = new();
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
         allReception = await reService.GetAllAsync();
-        GetList();
-    }
-
-    private string FormatValue(object value)
-    {
-        string result = "";
-        if (value is string[])
-        {
-            var array = value as Array;
-            foreach (var arr in array)
-            {
-                result += $"{arr} ";
-            }
-            return result;
-        }
-        else if (value is int[])
-        {
-            var array = value as Array;
-            foreach (var arr in array)
-            {
-                result += $"{arr} ";
-            }
-            return result;
-        }
-        else if (value is Doctor)
-        {
-            var doctor = value as Doctor;
-            return doctor.Name;
-        }
-        else
-        {
-            return value?.ToString() ?? string.Empty;
-        }
-    }
-    private void GetList()
-    {
-        foreach (var item in allReception)
-        {
-            Dictionary<string, string> a = new();
-            foreach (var prop in item.GetType().GetProperties())
-            {
-                var value = item.GetType().GetProperty(prop.Name).GetValue(item);
-                var displayNameAttribute = (DisplayNameAttribute)Attribute.GetCustomAttribute(prop, typeof(DisplayNameAttribute));
-                var displayName = displayNameAttribute?.DisplayName ?? prop.Name;
-
-                if(value != null)
-                {
-                    var formatValue = FormatValue(value);
-                    a.Add(displayName, formatValue);
-                }
-            }
-            result.Add(a);
-        }
     }
 }

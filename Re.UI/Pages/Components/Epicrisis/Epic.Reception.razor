@@ -39,10 +39,10 @@
                     <MudTextField T="string" Label="Жалобы на" Variant="Variant.Text" Text="@re.ComplaintText" />
                 </MudItem>
                 <MudItem Style="padding: 12px 0;" xs="2">
-                    <MudSwitch Class="d-flex justify-end" @bind-Checked="@IsVashOn" Color="Color.Primary"
+                    <MudSwitch Class="d-flex justify-end" @bind-Checked="@re.IsVash" Color="Color.Primary"
                                Label="ВАШ - "></MudSwitch>
                 </MudItem>
-                @if (IsVashOn)
+                @if (re.IsVash)
                 {
                     <MudItem xs="3">
                         <MudSelect @bind-Value="re.VAS" T="string">
@@ -251,7 +251,7 @@
                     </MudSelect>
                 </MudItem>
             </MudGrid>
-            @if (!IsIVL)
+            @if (!re.IsIVL)
             {
                 <MudGrid>
                     <MudItem Class="d-flex flex-column justify-end" xs="1">
@@ -280,7 +280,7 @@
                     <MudItem Style="padding-top: 0" Class="d-flex flex-column justify-end" xs="2"><MudText>л/мин</MudText></MudItem>
                 </MudGrid>
             }
-            @if (IsIVL)
+            @if (re.IsIVL)
             {
                 <MudSelect @bind-Value="re.RespiratorySupport" T="string" Label="Респираторная поддержка">
                     @foreach (var item in RespiratorySupport)
@@ -366,9 +366,9 @@
             </MudSelect>
             <MudGrid>
                 <MudItem Class="d-flex flex-column justify-end" xs="3">
-                    <MudSwitch @bind-Checked="IsInotropes" Label="Инотропы" Color="Color.Primary" />
+                    <MudSwitch @bind-Checked="re.IsInotropes" Label="Инотропы" Color="Color.Primary" />
                 </MudItem>
-                @if(IsInotropes){
+                @if(re.IsInotropes){
                     <MudItem xs="5">
                         <MudSelect @bind-Value="re.Inotropes" Label="Инотропы/вазопрессоры">
                             @foreach (var item in Inotropes)
@@ -519,9 +519,9 @@
             </MudGrid>
             <MudGrid>
                 <MudItem Class="d-flex flex-column justify-end" Style="padding: 12px;" xs="3">
-                    <MudSwitch @bind-Checked="IsDrainage" Label="По дренажам" Color="Color.Primary" />
+                    <MudSwitch @bind-Checked="re.IsDrainage" Label="По дренажам" Color="Color.Primary" />
                 </MudItem>
-                @if (IsDrainage)
+                @if (re.IsDrainage)
                 {
                     <MudItem xs="9">
                         <MudTextField @bind-Value="re.Drainage"/>
@@ -531,9 +531,9 @@
             <MudTextField @bind-Value="re.LaboratoryData" Label="Лабораторные данные"/>
             <MudGrid>
                 <MudItem Class="d-flex flex-column justify-end" Style="padding: 12px;" xs="3">
-                    <MudSwitch @bind-Checked="IsAddition" Label="Дополнительно" Color="Color.Primary" />
+                    <MudSwitch @bind-Checked="re.IsAddition" Label="Дополнительно" Color="Color.Primary" />
                 </MudItem>
-                @if (IsAddition)
+                @if (re.IsAddition)
                 {
                     <MudItem xs="9">
                         <MudTextField @bind-Value="re.Addition"/>
@@ -653,7 +653,6 @@
 </MudDialog>
 
 @code {
-    bool IsInotropes = false;
     string[] conditionList = new string[]
         {
             "объемом оперативного вмешательства",
@@ -861,10 +860,6 @@
 
     public ReceptionEpicrisis re = new();
     string robodoc = "ROBODOC";
-    bool IsVashOn = false;
-    bool IsIVL = false;
-    bool IsDrainage = false;
-    bool IsAddition = false;
     List<Doctor> doctors = new();
     Func<Doctor, string> converter = d =>
     {
@@ -891,6 +886,7 @@
 
     void HandleWithoutIVL()
     {
+        re.IsIVL = false;
         re.DeliveredFrom = DeliveredFrom[0];
         re.AVLDueTransportation = AVLDueTransportation[0];
         re.Complaints = Complaints[0];
@@ -936,11 +932,11 @@
         re.LaboratoryData = "в работе.";
         re.SeverityOfCondition = $"{conditionList[0]}, {conditionList[1]}, {conditionList[3]}";
         re.TreatmentPlan = $"{planList[1]}, {planList[2]}, {planList[4]}, {planList[5]}, {planList[7]}, {planList[11]}";
-        IsIVL = false;
     }
 
     void HandleWithIVL() 
     {
+        re.IsIVL = true;
         re.DeliveredFrom = DeliveredFrom[0];
         re.AVLDueTransportation = AVLDueTransportation[1];
         re.Complaints = Complaints[2];
@@ -1011,7 +1007,6 @@
         re.LaboratoryData = "в работе.";
         re.SeverityOfCondition = $"{conditionList[0]}, {conditionList[1]}, {conditionList[3]}";
         re.TreatmentPlan = $"{planList[1]}, {planList[2]}, {planList[4]}, {planList[5]}, {planList[6]}, {planList[11]}";
-        IsIVL = true;
     }
 
     #region Dialog functionality

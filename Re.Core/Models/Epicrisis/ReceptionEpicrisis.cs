@@ -22,6 +22,7 @@ namespace Re.Core.Models
 
         [DisplayName("Жалобы(пояснения)")]
         public string ComplaintText { get; set; }
+        public bool IsVash { get; set; }
 
         [DisplayName("ВАШ")]
         public string VAS { get; set; }
@@ -76,6 +77,7 @@ namespace Re.Core.Models
 
         [DisplayName("Хрипы")]
         public string[] Wheezes { get; set; } = new string[3];
+        public bool IsIVL { get; set; }
 
         [DisplayName("Респираторная поддержка")]
         public string RespiratorySupport { get; set; }
@@ -94,6 +96,7 @@ namespace Re.Core.Models
 
         [DisplayName("ДО")]
         public int Till { get; set; }
+        public bool IsInotropes { get; set; }
 
         [DisplayName("Инотропы/вазопрессоры")]
         public string Inotropes { get; set; }
@@ -169,12 +172,14 @@ namespace Re.Core.Models
 
         [DisplayName("Моча")]
         public string Urine { get; set; }
+        public bool IsDrainage { get; set; }
 
         [DisplayName("Дренажи")]
         public string Drainage { get; set; }
 
         [DisplayName("Лабораторные данные")]
         public string LaboratoryData { get; set; }
+        public bool IsAddition { get; set; }
 
         [DisplayName("Дополнительно")]
         public string Addition { get; set; }
